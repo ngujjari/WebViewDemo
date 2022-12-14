@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+
+  <body>
+    <!--
+        <p id="header_text">Hello New !!!</p>
+        <p id="header_text_exception"></p>
+        -->
+    <script
+      id="syfMPPScript"
+      src="https://dpdpone.syfpos.com/mpp/UniFi.js"
+      async=""
+    ></script>
+
+    <br />
+    <br />
+    <p id="header_text_log"></p>
+
+    <input id="syfCheckoutFormVal" type="hidden" value="">
+
+  </body> 
+
+  <script type="text/javascript">
+
+
+    var logBackup = console.log;
+
+    var logMessages = [];
+
+    console.log = function() {
+      logMessages.push.apply(logMessages, arguments);
+      logBackup.apply(console, arguments);
+    };
+
+    function onLoadUniFi() {
+      try {
+        jsonObj = {
+          syfPartnerId: "PI53421676",
+          tokenId: "PI534216767120618507db92a4",
+          encryptKey: "",
+          modalType: "",
+          childMid: "",
+          childPcgc: "",
+          childTransType: "",
+          pcgc: "",
+          partnerCode: "",
+          clientToken: "",
+          postbackid: "d979e5b7-6382-4e4e-b269-aab027bbed58",
+          clientTransId: "",
+          cardNumber: "",
+          custFirstName: "",
+          custLastName: "",
+          expMonth: "",
+          expYear: "",
+          custZipCode: "",
+          custAddress1: "",
+          phoneNumb: "",
+          appartment: "",
+          emailAddr: "",
+          custCity: "",
+          upeProgramName: "",
+          custState: "",
+          transPromo1: "",
+          iniPurAmt: "",
+          mid: "",
+          productCategoryNames: "",
+          transAmount1: "700",
+          transAmounts: "",
+          initialAmount: "",
+          envUrl: "https://dpdpone.syfpos.com/mitservice/",
+          productAttributes: "",
+          processInd: "3"
+        };
+        //document.getElementById("header_text").innerText =  "Updated Header Value 11 !!!";
+      } catch (e) {
+      //  document.getElementById("header_text_exception").innerText = e;
+      }
+    }
+/*
+    window.onresize = function () {
+      console.log(window.innerHeight + " ====in the onresize =====<br>");
+            let parentHeight = window.parent.innerHeight - 20;
+            let parentWidth = window.parent.innerWidth;
+            if (parentWidth <= 767 && window.innerHeight < parentHeight) {
+                window.innerHeight = parentHeight;
+            }
+
+            document.getElementsByClassName('syf-mpp-chng-height')[0].style.height = window.innerHeight + 'px';
+            document.getElementById("header_text_log").innerText = JSON.stringify(logMessages);
+
+        }
+*/
+    window.onload = function() {
+        console.log(window.location + "====in the webview  2=====<br>");
+      console.log(window.parent.innerHeight + "====in the webview  2=====<br>");
+      onLoadUniFi();
+     // document.getElementById("header_text_log").innerText = JSON.stringify(logMessages);
+    try{
+      console.log(document.getElementById("syfCheckoutFormVal").value + "===input val ==");
+
+     /* if(!document.getElementById("syfCheckoutFormVal").value){
+        window.webkit.messageHandlers.syfnativeprocess.postMessage(nativeData);
+        return;
+      } */
+      //jsonObj = JSON.parse(document.getElementById("syfCheckoutFormVal").value);
+      console.log(jsonObj+ "====jsonObj=====<br>"+document.getElementById("syfCheckoutFormVal").value);
+      if (window.syfMPP && jsonObj) {
+        let modalHeightObjClass = document.getElementsByClassName('syf-mpp-chng-height')[0];
+        console.log(modalHeightObjClass+"====before calling dbuy===== ");
+
+        window.syfMPP.calldBuyProcess(null, jsonObj);
+        window.postMessage(JSON.stringify({'totalHeight': '1600px'}), "*");
+       /* waitForElm('syf-mpp-chng-height').then((elm) => {
+            console.log('Element is ready');
+            console.log(elm.textContent);
+            adjustModalHeight();
+        }); */
+
+       // document.getElementsByClassName('syf-mpp-chng-height').addEventListener('DOMNodeInserted', adjustModalHeight);
+
+     /*  waitForElm('mppFrame').then((selector) => {
+       // adjustModalHeight();
+       console.log("====frame loaded ====="+selector);
+       document.getElementById("header_text_log").innerText = JSON.stringify(logMessages);
+    }); */
+
+        console.log(window.innerHeight+"====after calling dbuy=====");
+
+       // console.lg(" == "+document.getElementsByClassName('syf-mpp-chng-height')[0]);
+        console.log("====after calling dbuy=====");
+      }
+      document.getElementById("header_text_log").innerText = JSON.stringify(logMessages);
+    }
+    catch(e){
+      console.log(e + "====error====");
+      document.getElementById("header_text_log").innerText = JSON.stringify(logMessages);
+    }
+
+    };
+
+    const isElementLoaded = async selector => {
+      while ( document.querySelector(selector) === null) {
+        await new Promise( resolve =>  requestAnimationFrame(resolve) )
+      }
+      return document.querySelector(selector);
+    };
+
+    function waitForElm(selector) {
+    return new Promise(resolve => {
+        if (document.querySelector(selector)) {
+            return resolve(document.querySelector(selector));
+        }
+
+        const observer = new MutationObserver(mutations => {
+            if (document.querySelector(selector)) {
+                resolve(document.querySelector(selector));
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+}
+
+    function adjustModalHeight(){
+      
+      let modalHeightObjClass = document.getElementsByClassName('syf-mpp-chng-height')[0];
+      console.log(modalHeightObjClass+"====before calling adjustModalHeight===== ");
+
+        let parentHeight = window.parent.innerHeight - 20;
+        let parentWidth = window.parent.innerWidth;
+        if (parentWidth <= 767 && window.innerHeight < parentHeight) {
+                window.innerHeight = parentHeight;
+        }
+
+        if(modalHeightObjClass
+        && modalHeightObjClass.style
+        && modalHeightObjClass.style.height) {
+          modalHeightObjClass.style.height = window.innerHeight + 'px';
+        }
+        console.log(modalHeightObjClass+"====after calling adjustModalHeight===== ");
+        document.getElementById("header_text_log").innerText = JSON.stringify(logMessages);
+    }
+
+    function closeModalAction(){
+        console.log("====before calling closeModalAction=====");
+        console.log(" == "+document.getElementsByClassName('syf-mpp-chng-height')[0].style.height);
+        //document.getElementsByClassName('syf-mpp-chng-height')[0].style.height = '1400px';
+        //
+        window.postMessage("Close Model", "*");
+        // syfMPP.mppProduct.activeProduct.closeModalWindow();
+        document.getElementById("header_text_log").innerText = JSON.stringify(logMessages);
+       
+    }
+
+/*
+    const observer = new MutationObserver((mutations, obs) => {
+    const syfMPPCrossButton = document.getElementById('syfMPPCrossButton');
+    if (syfMPPCrossButton) {
+      console.log("syfMPPCrossButton  ==  "+syfMPPCrossButton.innerText);
+      obs.disconnect();
+      syfMPPCrossButton.remove();
+      return;
+    }
+    });
+    observer.observe(document, {
+      childList: true,
+      subtree: true
+    }); */
+    
+  </script>
+</html>
