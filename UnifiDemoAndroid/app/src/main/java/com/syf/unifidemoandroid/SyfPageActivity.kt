@@ -53,7 +53,7 @@ class SyfPageActivity : AppCompatActivity() {
            // showProgress(true)
             Log.v(TAG, "onPageStarted url=" + url);
             var jsonPayloadScript = "var jsonObj = {syfPartnerId:\"PI53421676\"," +
-                    "tokenId:\"185cd468fd4PI5342167627013\"," +
+                    "tokenId:\"PI5342167645385185df6e3851\"," +
                     "encryptKey:\"\",modalType:\"\",childMid:\"\",childPcgc:\"\",childTransType:\"\",pcgc:\"\",partnerCode:\"\",clientToken:\"\",postbackid:\"d979e5b7-6382-4e4e-b269-aab027bbed58\",clientTransId:\"\",cardNumber:\"\",custFirstName:\"\",custLastName:\"\",expMonth:\"\",expYear:\"\",custZipCode:\"\",custAddress1:\"\",phoneNumb:\"\",appartment:\"\",emailAddr:\"\",custCity:\"\",upeProgramName:\"\",custState:\"\",transPromo1:\"\",iniPurAmt:\"\",mid:\"\",productCategoryNames:\"\",transAmount1:\"700\",transAmounts:\"\",initialAmount:\"\",envUrl:\"https://dpdpone.syfpos.com/mitservice/\",productAttributes:\"\",processInd:\"3\"}"
             view.evaluateJavascript(jsonPayloadScript, null)
             super.onPageStarted(view, url, favicon)
